@@ -1,4 +1,10 @@
-from scryfall import *
+
+import csv
+import sys
+
+from lot_scout.scryfall import norm
+from lot_scout.scryfall import build_indexes
+
 
 def main():
     if len(sys.argv) < 2:
