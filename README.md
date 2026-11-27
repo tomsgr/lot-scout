@@ -4,4 +4,5 @@ Le but est *in fine* de *scout* les annonces Leboncoin en quêtes d'annonces de 
 A l'aide de machine learning, le programme permet de reconnaître les cartes à la fois grâce au texte des annonces et grâce aux images.
 
 Version actuelle:
-A partir d'un csv contenant une liste de carte, ressort les prix de ces cartes.
+A partir d'un csv contenant une liste de carte, ressort les prix de ces cartes au format CSV. 
+Le format d'entrée attendu est un csv contenant au moins les colonnes Nom_carte, Rareté, Quantité
