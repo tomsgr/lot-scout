@@ -52,6 +52,13 @@ def get_bulk_url() -> str:
             return item["jsonl_download_uri"]
     raise RuntimeError("Flux 'all_cards' introuvable sur Scryfall.")
 
+def get_card_price(card: dict) -> float | None:
+    price = (card.get("prices") or {}).get("eur")
+    try:
+        p = float(price)
+    except (ValueError, TypeError):
+        p = None
+    return p
 
 def build_indexes():
     """Stream le bulk Scryfall et construit les index nom->oracle et oracle->prix."""
@@ -74,14 +81,10 @@ def build_indexes():
             if not oid:
                 continue
             # Prix EUR (non foil) de cette édition
-            price = (card.get("prices") or {}).get("eur")
-            if price:
-                try:
-                    p = float(price)
-                    if oid not in oracle_to_min_eur or p < oracle_to_min_eur[oid]:
-                        oracle_to_min_eur[oid] = p
-                except ValueError:
-                    pass
+            p = get_card_price(card)
+            if p is not None:
+                if oid not in oracle_to_min_eur or p < oracle_to_min_eur[oid]:
+                    oracle_to_min_eur[oid] = p               
             # Nom EN
             en = card.get("name")
             if en:
